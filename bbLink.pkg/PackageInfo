@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<pkg-info overwrite-permissions="true" relocatable="false" identifier="com.rim.desktop.BlackBerryLink.pkg" postinstall-action="none" version="1.2.32" format-version="2" generator-version="InstallCmds-319 (12F45)" auth="root">
+    <payload numberOfFiles="4693" installKBytes="88783"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/RimMedia.framework" id="com.rim.RimMedia" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/RIMP2P.framework/Versions/A" id="com.rim.RIMP2P" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/RimSecurity.framework" id="com.rim.RimSecurity" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/RIMP2P.framework/Versions/Current" id="com.rim.RIMP2P" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/RimCommon.framework" id="com.rim.RimCommon" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/RIM_CFP.framework" id="com.rim.cfp" CFBundleShortVersionString="3.9.1" CFBundleVersion="3.12.2"/>
+    <bundle path="./Applications/BlackBerry Link.app" id="com.rim.blackberrylink" CFBundleShortVersionString="1.2.2" CFBundleVersion="102.02.32"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/ThriftFramework.framework/Versions/Current" id="com.yourcompany.ThriftFramework" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/RimLegacy.framework" id="com.rim.RimLegacy" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/Logger.framework" id="com.rim.Logger" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/ThriftFramework.framework" id="com.yourcompany.ThriftFramework" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/RIMP2P.framework" id="com.rim.RIMP2P" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/RimBlackBerryBackup.framework" id="com.rim.RimBlackBerryBackup" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Resources/BlackBerryLink.help" CFBundleShortVersionString="1.2" CFBundleVersion="1.2" SourceVersion="2" id="com.rim.BlackBerryLink.help" BuildVersion="1"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/RimQNXWebClient.framework" id="com.rim.RimQNXWebClient" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Applications/BlackBerry Link.app/Contents/Frameworks/ThriftFramework.framework/Versions/A" id="com.yourcompany.ThriftFramework" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle-version>
+        <bundle id="com.rim.blackberrylink"/>
+    </bundle-version>
+    <upgrade-bundle>
+        <bundle id="com.rim.blackberrylink"/>
+    </upgrade-bundle>
+    <update-bundle/>
+    <atomic-update-bundle/>
+    <strict-identifier>
+        <bundle id="com.rim.blackberrylink"/>
+    </strict-identifier>
+    <relocate>
+        <bundle id="com.rim.blackberrylink"/>
+    </relocate>
+    <scripts>
+        <preinstall file="./preinstall"/>
+        <postinstall file="./postinstall"/>
+    </scripts>
+</pkg-info>

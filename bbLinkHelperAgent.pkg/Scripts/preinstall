@@ -1,0 +1,16 @@
+#!/usr/bin/python2.6
+import RimInstallAid
+import os
+
+bblinkhelperLaunchAgent_Config="/Library/LaunchAgents/com.rim.blackberrylink.BlackBerry-Link-Helper-Agent.plist";
+bblinkhelperLaunchAgent_App="/Library/Application Support/BlackBerry/BlackBerry-Link-Helper-Agent.app"
+
+
+if os.path.exists(bblinkhelperLaunchAgent_App):
+	print "**** Disabling the BlackBerry Link Helper Launch Agent"
+	os.system("/bin/launchctl unload " + bblinkhelperLaunchAgent_Config)
+	print "**** Disabled the BlackBerry Link Helper Launch Agent"
+
+
+RimInstallAid.writePkgIsUpgrading_DefaultsDict()
+

@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  
+
+  Created by Andy Kwak on 2014-10-06.
+
+*/
+"Use BlackBerry Blend to view the messages and content from your BlackBerry device on your computer. You can also view your calendar and contacts, and manage files between your computer and device.  If your device is enterprise activated, you can securely access your work information, files, and intranet without connecting to VPN. BlackBerry Blend is supported on devices running BlackBerry 10 OS version 10.3 or later." = "Use BlackBerry Blend to view the messages and content from your BlackBerry device on your computer. You can also view your calendar and contacts, and manage files between your computer and device.  If your device is enterprise activated, you can securely access your work information, files, and intranet without connecting to VPN. BlackBerry Blend is supported on devices running BlackBerry 10 OS version 10.3 or later.";
+
+"Use BlackBerry Link to back up and restore your device data, switch to a new device, update your device software, or reinstall device software. You can also sync your media, documents, and organizer data such as contacts and calendars between your device and your computer. Allow access to the files on your computer from your device using the remote file access feature, and more!" = "Use BlackBerry Link to back up and restore your device data, switch to a new device, update your device software, or reinstall device software. You can also sync your media, documents, and organizer data such as contacts and calendars between your device and your computer. Allow access to the files on your computer from your device using the remote file access feature, and more!";

@@ -1,0 +1,22 @@
+#!/usr/bin/python2.6
+import RimInstallAid
+import os
+
+# Permissions get all screwed up in Packagemaker (they change between leopard/snow leopard even) so we do this as a safe guard
+print "**** Setting Framework support permissions"
+bblinkhelperLaunchAgent_Config="/Library/LaunchAgents/com.rim.blackberrylink.BlackBerry-Link-Helper-Agent.plist";
+bblinkhelperLaunchAgent_App="/Library/Application Support/BlackBerry/BlackBerry-Link-Helper-Agent.app"
+
+rootUID = RimInstallAid.getUID("root")
+adminGID = RimInstallAid.getGID("admin")
+wheelGID = RimInstallAid.getGID("wheel")
+
+RimInstallAid.setSystemFilePermissions(bblinkhelperLaunchAgent_App, rootUID, adminGID)
+RimInstallAid.setContainerPermissions(bblinkhelperLaunchAgent_Config, rootUID, wheelGID)
+print "**** Completed Setting Framework support permissions"
+
+
+#if os.path.exists(dt10helperLaunchAgent_Config):
+#	print "**** Enabling the Desktop 10 Helper launch agent"
+#	os.system("/bin/launchctl load " + dt10helperLaunchAgent_Config)
+#	print "**** Enabled the Desktop 10 Helper launch agent"

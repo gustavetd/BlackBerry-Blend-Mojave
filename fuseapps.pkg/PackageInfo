@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<pkg-info overwrite-permissions="true" relocatable="false" identifier="com.BlackBerry.desktop.Blend" postinstall-action="none" version="1.2.52" format-version="2" generator-version="InstallCmds-403 (13E28)" auth="root">
+    <payload numberOfFiles="479" installKBytes="212485"/>
+    <bundle path="./Applications/BlackBerry Blend.app" id="com.blackberry.blend" CFBundleShortVersionString="1.2.0" CFBundleVersion="52"/>
+    <bundle-version>
+        <bundle id="com.blackberry.blend"/>
+    </bundle-version>
+    <upgrade-bundle>
+        <bundle id="com.blackberry.blend"/>
+    </upgrade-bundle>
+    <update-bundle/>
+    <atomic-update-bundle/>
+    <strict-identifier>
+        <bundle id="com.blackberry.blend"/>
+    </strict-identifier>
+    <relocate/>
+    <scripts>
+        <preinstall file="./preinstall"/>
+        <postinstall file="./postinstall"/>
+    </scripts>
+</pkg-info>

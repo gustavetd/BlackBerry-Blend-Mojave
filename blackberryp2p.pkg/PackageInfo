@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<pkg-info overwrite-permissions="true" relocatable="false" identifier="com.blackberry.p2p" postinstall-action="none" version="2.0.112" format-version="2" generator-version="InstallCmds-165 (11E53)" auth="root">
+    <payload numberOfFiles="73" installKBytes="41254"/>
+    <bundle path="./Library/Frameworks/BlackBerryP2P.framework" id="com.rim.BlackBerryP2P" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Library/Frameworks/RIMBlackBerryTun.framework" id="com.rim.rimbbtun" CFBundleShortVersionString="2.0.112" CFBundleVersion="2.0.112"/>
+    <bundle-version>
+        <bundle id="com.rim.BlackBerryP2P"/>
+        <bundle id="com.rim.rimbbtun"/>
+    </bundle-version>
+    <upgrade-bundle>
+        <bundle id="com.rim.BlackBerryP2P"/>
+        <bundle id="com.rim.rimbbtun"/>
+    </upgrade-bundle>
+    <update-bundle/>
+    <atomic-update-bundle/>
+    <strict-identifier/>
+    <relocate/>
+    <scripts>
+        <preinstall file="./preinstall"/>
+        <postinstall file="./postinstall"/>
+    </scripts>
+</pkg-info>

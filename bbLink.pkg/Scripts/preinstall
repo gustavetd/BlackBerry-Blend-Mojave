@@ -1,0 +1,21 @@
+#!/usr/bin/python2.6
+import sys
+import os
+import shutil
+import RimInstallAid
+import RimInstallSyncServicesAid
+
+bbLink_app = "/Applications/BlackBerry Link.app/"
+potentialBlackBerryUsers = RimInstallSyncServicesAid.getPotentialBlackBerryUsers()
+		
+# If the BBLink app is installed, then delete it
+print "**** BBLink Preinstall: Checking if BBLink is installed"
+if os.path.isdir(bbLink_app):
+	print "**** Deleting BBLink: " + bbLink_app
+	try:
+		shutil.rmtree(bbLink_app)
+	except Exception, e:
+		print(repr(e))
+		print "**** Unable to delete BBLink: " + bbLink_app
+		
+RimInstallAid.writePkgIsUpgrading_DefaultsDict()

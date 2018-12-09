@@ -1,0 +1,25 @@
+#!/bin/sh
+
+PLIST=/Library/Preferences/com.rim.RIMBBLaunchAgent.plist
+UPGRADE_DRIVERS_BUNDLE_ID=com.rim.upgradedrivers.lua
+UPGRADE_DRIVERS_PATH="/Library/Application Support/BlackBerry/upgradedrivers.lua"
+MAX_ENTRIES=1024
+
+if [ -f $PLIST ]; then
+	for i in `seq 0 $MAX_ENTRIES`
+	do
+		BUNDLE_ID=`/usr/libexec/PlistBuddy -c "Print :RegisteredItems:$i:\"Bundle identifier\"" $PLIST 2> /dev/null`
+		if [ "$BUNDLE_ID" == "$UPGRADE_DRIVERS_BUNDLE_ID" ]; then
+			/usr/libexec/PlistBuddy -c "Delete :RegisteredItems:$i" $PLIST
+		fi
+
+		if [ "$BUNDLE_ID" == "" ]; then
+			break
+		fi
+	done
+fi
+
+/usr/libexec/PlistBuddy -c "Add :RegisteredItems array" $PLIST 2> /dev/null
+/usr/libexec/PlistBuddy -c "Add :RegisteredItems:0 dict" $PLIST 2> /dev/null
+/usr/libexec/PlistBuddy -c "Add :RegisteredItems:0:\"Bundle identifier\" data $UPGRADE_DRIVERS_BUNDLE_ID" $PLIST 2> /dev/null
+/usr/libexec/PlistBuddy -c "Add :RegisteredItems:0:\"Path\" data $UPGRADE_DRIVERS_PATH" $PLIST 2> /dev/null

@@ -1,0 +1,90 @@
+#!/usr/bin/python2.6
+import RimInstallAid
+import os
+import sys
+import shutil
+
+
+
+bbDeviceManager	= "/Library/Application Support/BlackBerry/BlackBerry Device Manager.app"
+
+BDM_app_pkg_identifier = 'com.rim.desktop.BlackBerryDeviceManager.pkg'
+isUpgrading = RimInstallAid.readPkgIsUpgrading_DefaultsDict(BDM_app_pkg_identifier)
+
+if (isUpgrading == True):
+	# Do the post-upgrade
+	print "**** Updating device manager"
+	sys.stdout.flush()
+else:
+	# Do the post-install
+	print "**** Fresh install"
+	sys.stdout.flush()
+	
+# Do the postflight
+
+print "**** Updating BlackBerry Device Manager Permissions"
+sys.stdout.flush()
+
+rootUID = RimInstallAid.getUID("root")
+rootGID = RimInstallAid.getGID("admin")
+
+#---------------------------------------------------------------
+# Update BlackBerry Device Manager Permissions
+#---------------------------------------------------------------
+if (os.path.isdir(bbDeviceManager)):
+	RimInstallAid.setContainerPermissions(bbDeviceManager, rootUID, rootGID)
+	print "**** Completed Updating BlackBerry Device Manager Permissions"
+	sys.stdout.flush()
+else:
+	print "**** Unable to update BlackBerry Device Manager Permissions - directory does not exist: " + bbDeviceManager
+	sys.stdout.flush()
+
+# Intentionally placed here, does no harm to call multiple times
+# Also incase of user getting corrupt package or something overwriting this then a reinstall (without an uninstall)
+# will correct the issue
+print "**** Updating to PBTools 2.0"
+sys.stdout.flush()
+
+# For example, if the version of Device Manager is "2.3.0.68"
+# This will come as "203.00.68" (this is done by SCM)
+# So we want it to be the hex number: 0x02030044 (as 0x44 is 68 in decimal)
+# which is 33751108 in decimal
+
+# "Eg. 203.00.68"
+deviceMngr_CFBundleVersion = RimInstallAid.getCFBundleVersionOfDeviceManager()
+augmentedVersionNumber_inDecimal = RimInstallAid.augmentVersionOfDeviceMngrToDecimal(deviceMngr_CFBundleVersion)
+cmd = "defaults write /Library/Preferences/com.rim.RimBlackBerryUSB PBToolsInstalledVersion -int " + str(augmentedVersionNumber_inDecimal)
+print "**** Writing PBToolsInstalledVersion: " + cmd
+sys.stdout.flush()
+os.system(cmd)
+
+cmd = "defaults write /Library/Preferences/com.rim.blackberrydevicemanager.plist RimAutoMounterDesktopIcon -bool FALSE"
+print "**** Force no desktop icon"
+sys.stdout.flush()
+os.system(cmd)
+
+print "**** Completed update to PBTools 2.0"
+sys.stdout.flush()
+
+
+bbDeviceManagerUninstaller	= "/Library/Application Support/BlackBerry/BlackBerry Device Manager Uninstaller.app"
+if os.path.exists(bbDeviceManagerUninstaller):
+	print "**** Removing Device Manager Uninstaller, the new one is much better"
+	sys.stdout.flush()
+	shutil.rmtree(bbDeviceManagerUninstaller)
+
+print "**** Updating device manager lua permissions."
+sys.stdout.flush()
+bbDeviceManagerLua="/Library/Application Support/BlackBerry/com.rim.blackberrydevicemanager.lua";
+RimInstallAid.setSystemFilePermissions(bbDeviceManagerLua, rootUID, rootGID)
+print "**** Completed updating device manager lua permissions."
+sys.stdout.flush()
+
+
+# Unregister the old, register the new
+# Not always Required
+print "**** Register Device Manager for auto-launching"
+RimInstallAid.registerBBDeviceManagerAutoLaunch()
+print "**** Device Manager Auto Launch Registration Complete"
+sys.stdout.flush()
+

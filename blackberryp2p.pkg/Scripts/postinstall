@@ -1,0 +1,29 @@
+#!/usr/local/bin/python2.7
+import os
+import RimInstallSyncServicesAid
+import RimInstallAid
+import subprocess
+
+
+
+#-------------------------------------------------------------------------------------------------
+# Step 1: Write the PeerManager installation key
+#-------------------------------------------------------------------------------------------------
+# installationKey = RimInstallAid.get_preference_anyuser('InstallationKey', 'com.rim.peermanager')
+installationKey = None;
+
+if (installationKey == None):
+	# Do fresh-install logic
+	peerManager_id = RimInstallAid.peermanager_id_generator()
+	print "**** Writing PeerManager installation key: " + peerManager_id
+	RimInstallAid.set_preference_anyuser('InstallationKey', peerManager_id, 'com.rim.peermanager')
+
+else:
+	print "PeerManager installation key found: " + installationKey
+
+
+#-------------------------------------------------------------------------------------------------
+# Step 2: Currently it's expected that the system will need to reboot after these components are 
+# installed so do not attempted to start services here.
+#-------------------------------------------------------------------------------------------------
+

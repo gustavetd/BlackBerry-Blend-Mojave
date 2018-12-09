@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<pkg-info overwrite-permissions="true" relocatable="false" identifier="com.rim.desktop.BlackBerryDeviceManager.pkg" postinstall-action="none" version="2.5.3" format-version="2" generator-version="InstallCmds-403 (13E28)" auth="root">
+    <payload numberOfFiles="1590" installKBytes="17849"/>
+    <bundle path="./Library/Application Support/BlackBerry/BlackBerry Device Manager.app" id="com.rim.blackberrydevicemanager" CFBundleShortVersionString="2.5.3" CFBundleVersion="205.03.32"/>
+    <bundle-version>
+        <bundle id="com.rim.blackberrydevicemanager"/>
+    </bundle-version>
+    <upgrade-bundle>
+        <bundle id="com.rim.blackberrydevicemanager"/>
+    </upgrade-bundle>
+    <update-bundle/>
+    <atomic-update-bundle/>
+    <strict-identifier>
+        <bundle id="com.rim.blackberrydevicemanager"/>
+    </strict-identifier>
+    <relocate/>
+    <scripts>
+        <preinstall file="./preinstall"/>
+        <postinstall file="./postinstall"/>
+    </scripts>
+</pkg-info>

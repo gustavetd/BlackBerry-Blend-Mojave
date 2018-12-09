@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<pkg-info overwrite-permissions="true" relocatable="false" identifier="com.BlackBerry.driver.pkg.BlackBerryUSBCDCNCM" postinstall-action="none" version="1.0.14" format-version="2" generator-version="InstallCmds-318 (12E55)" install-location="/" auth="root">
+    <payload numberOfFiles="10" installKBytes="220"/>
+    <bundle path="./Library/Extensions/BlackBerryUSBCDCNCM.kext" id="com.BlackBerry.driver.USBCDCNCM" CFBundleShortVersionString="1.0.14" CFBundleVersion="1.0.14"/>
+    <bundle-version>
+        <bundle id="com.BlackBerry.driver.USBCDCNCM"/>
+    </bundle-version>
+    <upgrade-bundle>
+        <bundle id="com.BlackBerry.driver.USBCDCNCM"/>
+    </upgrade-bundle>
+    <update-bundle/>
+    <atomic-update-bundle/>
+    <strict-identifier/>
+    <relocate/>
+</pkg-info>

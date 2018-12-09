@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<installer-gui-script minSpecVersion="1">
+    <title>BlackBerry 10 Desktop Software</title>
+    <options customize="always" allow-external-scripts="false" rootVolumeOnly="true"/>
+    <domains enable_localSystem="true"/>
+    <installation-check script="pm_install_check()"/>
+    <volume-check script="VolumeCheck()"/>
+    <script><![CDATA[
+    	var gOSMinimumVersion = '10.7';
+    	var gOSVersionSignedKEXTOnly = '10.9';
+        
+        function choiceIsAnUpgrade() {
+        var result = false;
+        try {
+            result = my.choice.packageUpgradeAction == 'upgrade' || my.choice.packageUpgradeAction == 'clean' || my.choice.packageUpgradeAction == 'installed';
+        } catch (e) {}
+    
+        return result;
+        }
+        
+        function enableChoice() {
+        var result = false;
+        try {
+        result = my.choice.packageUpgradeAction == 'clean';
+        } catch (e) {}
+        
+        return result;
+        }
+        
+        function preselectChoice() {
+        var result = false;
+        try {
+        result = my.choice.packageUpgradeAction == 'upgrade' || my.choice.packageUpgradeAction == 'installed';
+        } catch (e) {}
+        
+        return result;
+        }
+        
+        function checkUnsignedKEXTRequired() {
+    	try {
+    	    if(system.compareVersions(system.version.ProductVersion, gOSVersionSignedKEXTOnly) == -1) {
+            	return choiceIsAnUpgrade();
+            }
+    	} catch (e) {}
+    	
+    	return false;
+    	}
+
+
+    	function pm_install_check() {  
+        if(system.compareVersions(system.version.ProductVersion, gOSMinimumVersion) == -1) {
+            my.result.title = 'Failure';
+            my.result.message = 'Installation cannot proceed, as not all OS requirements were met. Please upgrade to 10.7 or higher.';
+            my.result.type = 'Fatal';
+            return false;
+        }
+            return true;
+    	}
+
+    	function VolumeCheck()
+    	{
+ 			return true;
+    	}
+    ]]></script>
+    <background file="background.pdf" alignment="bottomleft" scaling="none"/>
+    <!-- Installer Choices
+        In the Blend Installer each choice in this installer corresponds to the installation of a single .pkg file
+        This pkg-ref is defined from within the choice. All choices will be invisible to the end user, and will be selected by default.
+        For the unsigned KEXT components, they are only required on 10.7 and 10.8 machines, a script function to determines if these
+        pkg files are to be installed on the system.
+    -->
+    <choice id="default" title="BlackBerry 10 Desktop Software"/>
+    <!-- BlackBerry USB Driver pkgs -->
+    <choice id="RIMBBUSB" selected="choiceIsAnUpgrade()" title="BlackBerry USB Interface Driver" visible="false">
+        <pkg-ref id="com.BlackBerry.driver.pkg.RIMBBUSB" auth="Root" onConclusion="RequireRestart">RIMBBUSB.pkg</pkg-ref>
+    </choice>
+    <choice id="RIMBBUSB_unsigned" selected="checkUnsignedKEXTRequired()" title="BlackBerry USB Interface Driver Unsigned" visible="false">
+        <pkg-ref id="com.BlackBerry.driver.pkg.RIMBBUSB_unsigned" auth="Root" onConclusion="RequireRestart">RIMBBUSB_unsigned.pkg</pkg-ref>
+    </choice>
+    <choice id="BlackBerryUSBCDCNCM" selected="choiceIsAnUpgrade()" title="BlackBerry USB NCM Kext" visible="false">
+        <pkg-ref id="com.BlackBerry.driver.pkg.BlackBerryUSBCDCNCM" auth="Root" onConclusion="RequireRestart">BlackBerryUSBCDCNCM.pkg</pkg-ref>
+    </choice>
+    <choice id="BlackBerryUSBCDCNCM_unsigned" selected="checkUnsignedKEXTRequired()" title="BlackBerry USB NCM Kext Unsigned" visible="false">
+        <pkg-ref id="com.BlackBerry.driver.pkg.BlackBerryUSBCDCNCM_unsigned" auth="Root" onConclusion="RequireRestart">BlackBerryUSBCDCNCM_unsigned.pkg</pkg-ref>
+    </choice>
+    <choice id="RimBlackBerryUSB" selected="choiceIsAnUpgrade()" title="BlackBerry USB Framework" visible="false">
+        <pkg-ref id="com.BlackBerry.driver.pkg.RimBlackBerryUSB" auth="Root">RimBlackBerryUSB.pkg</pkg-ref>
+    </choice>
+    <choice id="BlackBerryLaunchAgent" selected="choiceIsAnUpgrade()" title="BlackBerry LaunchAgent" visible="false">
+        <pkg-ref id="com.BlackBerry.driver.pkg.BBLaunchAgent" onConclusion="RequireRestart">BBLaunchAgent.pkg</pkg-ref>
+    </choice>
+    <!-- PeerToPeer pkgs -->
+    <choice id="BlackBerryVirtualPrivateNetwork" selected="choiceIsAnUpgrade()" title="BlackBerry Virtual Private Network" visible="false">
+        <pkg-ref id="com.BlackBerry.driver.pkg.BlackBerryVirtualPrivateNetwork" auth="Root" onConclusion="RequireRestart">BlackBerryVirtualPrivateNetwork.pkg</pkg-ref>
+    </choice>
+    <choice id="BlackBerryVirtualPrivateNetwork_unsigned" selected="checkUnsignedKEXTRequired()" title="BlackBerry Virtual Private Network Unsigned" visible="false">
+        <pkg-ref id="com.BlackBerry.driver.pkg.BlackBerryVirtualPrivateNetwork_unsigned" auth="Root" onConclusion="RequireRestart">BlackBerryVirtualPrivateNetwork_unsigned.pkg</pkg-ref>
+    </choice>
+    <choice id="BlackBerryP2P" selected="choiceIsAnUpgrade()" title="BlackBerry P2P" visible="false">
+        <pkg-ref id="com.blackberry.p2p" auth="Root" onConclusion="RequireRestart">blackberryp2p.pkg</pkg-ref>
+    </choice>
+    <!-- App pkgs -->
+    <choice id="blackberrydevicemanager" selected="choiceIsAnUpgrade()" title="BlackBerryDeviceManager" visible="false">
+        <pkg-ref id="com.rim.desktop.BlackBerryDeviceManager" auth="Root">#devicemanager.pkg</pkg-ref>
+    </choice>
+    <choice id="blackberryfuseapps" title="BlackBerry Blend" start_selected="true" visible="true" start_enabled="enableChoice()" description="Use BlackBerry Blend to view the messages and content from your BlackBerry device on your computer. You can also view your calendar and contacts, and manage files between your computer and device.  If your device is enterprise activated, you can securely access your work information, files, and intranet without connecting to VPN. BlackBerry Blend is supported on devices running BlackBerry 10 OS version 10.3 or later.">
+        <pkg-ref id="com.BlackBerry.desktop.Blend" auth="Root" onConclusion="RequireRestart">#fuseapps.pkg</pkg-ref>
+        <pkg-ref id="com.BlackBerry.desktop.Blend">
+            <must-close>
+                <app id="com.blackberry.blend"/>
+                <app id="com.rim.blackberrylink"/>
+            </must-close>
+        </pkg-ref>
+    </choice>
+    <choice id="blackberrylinkapps" title="BlackBerry Link" start_selected="preselectChoice()" visible="true" start_enabled="enableChoice()" description="Use BlackBerry Link to back up and restore your device data, switch to a new device, update your device software, or reinstall device software. You can also sync your media, documents, and organizer data such as contacts and calendars between your device and your computer. Allow access to the files on your computer from your device using the remote file access feature, and more!">
+        <pkg-ref id="com.rim.desktop.BlackBerryLink.pkg" auth="Root" onConclusion="RequireRestart">#bbLink.pkg</pkg-ref>
+        <pkg-ref id="com.rim.desktop.BlackBerryLink.pkg">
+            <must-close>
+                <app id="com.blackberry.blend"/>
+                <app id="com.rim.blackberrylink"/>
+            </must-close>
+        </pkg-ref>
+        <pkg-ref id="com.rim.blackberrylink.BlackBerry-Link-Helper-Agent" auth="Root">#bbLinkHelperAgent.pkg</pkg-ref>
+    </choice>
+    <choices-outline>
+        <line choice="RIMBBUSB"/>
+        <line choice="RIMBBUSB_unsigned"/>
+        <line choice="BlackBerryUSBCDCNCM"/>
+        <line choice="BlackBerryUSBCDCNCM_unsigned"/>
+        <line choice="RimBlackBerryUSB"/>
+        <line choice="BlackBerryLaunchAgent"/>
+        <line choice="BlackBerryVirtualPrivateNetwork"/>
+        <line choice="BlackBerryVirtualPrivateNetwork_unsigned"/>
+        <line choice="BlackBerryP2P"/>
+        <line choice="blackberrydevicemanager"/>
+        <line choice="blackberryfuseapps"/>
+        <line choice="blackberrylinkapps"/>
+    </choices-outline>
+    <pkg-ref id="com.BlackBerry.driver.pkg.RIMBBUSB" version="2.2.16" installKBytes="541">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="2.2.16" CFBundleVersion="2.2.16" id="com.rim.driver.BlackBerryUSBDriverInt" path="Library/Extensions/RIMBBUSB.kext"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.RIMBBUSB_unsigned" version="2.2.16" installKBytes="518">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="2.2.16" CFBundleVersion="2.2.16" id="com.rim.driver.BlackBerryUSBDriverInt" path="System/Library/Extensions/RIMBBUSB.kext"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.BlackBerryUSBCDCNCM" version="1.0.14" installKBytes="220">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="1.0.14" CFBundleVersion="1.0.14" id="com.BlackBerry.driver.USBCDCNCM" path="Library/Extensions/BlackBerryUSBCDCNCM.kext"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.BlackBerryUSBCDCNCM_unsigned" version="1.0.14" installKBytes="201">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="1.0.14" CFBundleVersion="1.0.14" id="com.BlackBerry.driver.USBCDCNCM" path="System/Library/Extensions/BlackBerryUSBCDCNCM.kext"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.RimBlackBerryUSB" version="2.2.35" installKBytes="3906">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="2.2.35" CFBundleVersion="2.2.35" id="com.blackberry.BBUpgradeDrivers" path="Library/Application Support/BlackBerry/BBUpgradeDrivers.app"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.BBLaunchAgent" version="2.2.35" installKBytes="371">
+        <bundle-version/>
+    </pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.BlackBerryVirtualPrivateNetwork" version="1.0.18" installKBytes="72">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="1.0.18" CFBundleVersion="1.0.18" id="com.rim.driver.BlackBerryVirtualPrivateNetwork" path="Library/Extensions/BlackBerryVirtualPrivateNetwork.kext"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.BlackBerryVirtualPrivateNetwork_unsigned" version="1.0.18" installKBytes="54">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="1.0.18" CFBundleVersion="1.0.18" id="com.rim.driver.BlackBerryVirtualPrivateNetwork" path="System/Library/Extensions/BlackBerryVirtualPrivateNetwork.kext"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="com.blackberry.p2p" version="2.0.112" installKBytes="41254">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1" id="com.rim.BlackBerryP2P" path="Library/Frameworks/BlackBerryP2P.framework"/>
+            <bundle CFBundleShortVersionString="2.0.112" CFBundleVersion="2.0.112" id="com.rim.rimbbtun" path="Library/Frameworks/RIMBlackBerryTun.framework"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="com.rim.desktop.BlackBerryDeviceManager" packageIdentifier="com.rim.desktop.BlackBerryDeviceManager.pkg" version="2.5.3" installKBytes="17849">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="2.5.3" CFBundleVersion="205.03.32" id="com.rim.blackberrydevicemanager" path="Library/Application Support/BlackBerry/BlackBerry Device Manager.app"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="com.BlackBerry.desktop.Blend" version="1.2.52" installKBytes="212485">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="1.2.0" CFBundleVersion="52" id="com.blackberry.blend" path="Applications/BlackBerry Blend.app"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="com.rim.desktop.BlackBerryLink.pkg" version="1.2.32" installKBytes="88783">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1" id="com.rim.RimQNXWebClient" path="Applications/BlackBerry Link.app/Contents/Frameworks/RimQNXWebClient.framework"/>
+            <bundle CFBundleShortVersionString="3.9.1" CFBundleVersion="3.12.2" id="com.rim.cfp" path="Applications/BlackBerry Link.app/Contents/Frameworks/RIM_CFP.framework"/>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1" id="com.rim.RimMedia" path="Applications/BlackBerry Link.app/Contents/Frameworks/RimMedia.framework"/>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1" id="com.rim.RimSecurity" path="Applications/BlackBerry Link.app/Contents/Frameworks/RimSecurity.framework"/>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1" id="com.rim.Logger" path="Applications/BlackBerry Link.app/Contents/Frameworks/Logger.framework"/>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1" id="com.rim.RimCommon" path="Applications/BlackBerry Link.app/Contents/Frameworks/RimCommon.framework"/>
+            <bundle CFBundleShortVersionString="1.2" CFBundleVersion="1.2" SourceVersion="2" BuildVersion="1" id="com.rim.BlackBerryLink.help" path="Applications/BlackBerry Link.app/Contents/Resources/BlackBerryLink.help"/>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1" id="com.rim.RimLegacy" path="Applications/BlackBerry Link.app/Contents/Frameworks/RimLegacy.framework"/>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1" id="com.yourcompany.ThriftFramework" path="Applications/BlackBerry Link.app/Contents/Frameworks/ThriftFramework.framework/Versions/A"/>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1" id="com.rim.RimBlackBerryBackup" path="Applications/BlackBerry Link.app/Contents/Frameworks/RimBlackBerryBackup.framework"/>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1" id="com.rim.RIMP2P" path="Applications/BlackBerry Link.app/Contents/Frameworks/RIMP2P.framework"/>
+            <bundle CFBundleShortVersionString="1.2.2" CFBundleVersion="102.02.32" id="com.rim.blackberrylink" path="Applications/BlackBerry Link.app"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="com.rim.blackberrylink.BlackBerry-Link-Helper-Agent" version="1.2.32" installKBytes="1818">
+        <bundle-version>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1" id="com.rim.Logger" path="Library/Application Support/BlackBerry/BlackBerry-Link-Helper-Agent.app/Contents/Frameworks/Logger.framework"/>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1" id="com.rim.RimCommon" path="Library/Application Support/BlackBerry/BlackBerry-Link-Helper-Agent.app/Contents/Frameworks/RimCommon.framework"/>
+            <bundle CFBundleShortVersionString="1.0" CFBundleVersion="1" id="com.rim.RimMedia" path="Library/Application Support/BlackBerry/BlackBerry-Link-Helper-Agent.app/Contents/Frameworks/RimMedia.framework"/>
+            <bundle CFBundleShortVersionString="1.2.2" CFBundleVersion="102.02.32" id="com.rim.blackberrylink.BlackBerry-Link-Helper-Agent" path="Library/Application Support/BlackBerry/BlackBerry-Link-Helper-Agent.app"/>
+        </bundle-version>
+    </pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.RIMBBUSB">#RIMBBUSB.pkg</pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.RIMBBUSB_unsigned">#RIMBBUSB_unsigned.pkg</pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.BlackBerryUSBCDCNCM">#BlackBerryUSBCDCNCM.pkg</pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.BlackBerryUSBCDCNCM_unsigned">#BlackBerryUSBCDCNCM_unsigned.pkg</pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.RimBlackBerryUSB">#RimBlackBerryUSB.pkg</pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.BBLaunchAgent">#BBLaunchAgent.pkg</pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.BlackBerryVirtualPrivateNetwork">#BlackBerryVirtualPrivateNetwork.pkg</pkg-ref>
+    <pkg-ref id="com.BlackBerry.driver.pkg.BlackBerryVirtualPrivateNetwork_unsigned">#BlackBerryVirtualPrivateNetwork_unsigned.pkg</pkg-ref>
+    <pkg-ref id="com.blackberry.p2p">#blackberryp2p.pkg</pkg-ref>
+    <pkg-ref id="com.rim.desktop.BlackBerryDeviceManager">#devicemanager.pkg</pkg-ref>
+    <pkg-ref id="com.BlackBerry.desktop.Blend">#fuseapps.pkg</pkg-ref>
+    <pkg-ref id="com.rim.desktop.BlackBerryLink.pkg">#bbLink.pkg</pkg-ref>
+    <pkg-ref id="com.rim.blackberrylink.BlackBerry-Link-Helper-Agent">#bbLinkHelperAgent.pkg</pkg-ref>
+</installer-gui-script>

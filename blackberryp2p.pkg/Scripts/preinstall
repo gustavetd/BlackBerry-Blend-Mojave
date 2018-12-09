@@ -1,0 +1,60 @@
+#!/usr/local/bin/python2.7
+import RimInstallAid
+import os
+import RimInstallSyncServicesAid
+
+#-------------------------------------------------------------------------------------------------
+# Step 1: Shutdown peermanager delete files.
+#
+# Reason for CERT storage files being deleted currently unknown.  TODO:: Ask Grant M.
+#
+#-------------------------------------------------------------------------------------------------
+
+peerManagerLaunchAgent_Config="/Library/LaunchAgents/com.rim.PeerManager.plist";
+peerManagerLaunchAgent_App="/Library/Application Support/BlackBerry/PeerManager"
+peerManagerLaunchAgent_AppLegacy="/Applications/BlackBerry Link.app/Contents/Resources/P2P/PeerManager"
+potentialBlackBerryUsers = RimInstallSyncServicesAid.getPotentialBlackBerryUsers()
+
+if os.path.exists(peerManagerLaunchAgent_AppLegacy):
+	print "**** Disabling the PeerManager Launch Agent"
+	os.system("/bin/launchctl unload " + peerManagerLaunchAgent_Config)
+	print "**** Disabled the PeerManager Launch Agent"
+
+if os.path.exists(peerManagerLaunchAgent_App):
+	print "**** Disabling the PeerManager Launch Agent"
+	os.system("/bin/launchctl unload " + peerManagerLaunchAgent_Config)
+	print "**** Disabled the PeerManager Launch Agent"
+	
+# If the version of BBLink is below 1.1.0.21 (bundle 23), then delete the files:
+# /Library/Application Support/BlackBerry/RIMP2PSTORE
+# ~/Library/Keychains/RIMP2PSTORE
+if len(RimInstallAid.getCFBundleVersionOfBBLink()) > 1 and RimInstallAid.getCFBundleVersionOfBBLink() < "101.00.21":
+	print "*** PeerManager Preinstall: Deleting RIMP2PSTORE files"
+	
+	# Delete /Library/Application Support/BlackBerry/RIMP2PSTORE
+	sys_RIMP2PSTORE = "/Library/Application Support/BlackBerry/RIMP2PSTORE"
+	if os.path.exists(sys_RIMP2PSTORE):
+		try:
+			os.remove(sys_RIMP2PSTORE)
+		except Exception, e:
+				print(repr(e))
+				print "**** Unable to system RIMP2PSTORE file: " + sys_RIMP2PSTORE
+	
+	# Delete ~/Library/Keychains/RIMP2PSTORE
+	# If the user's RIMP2PSTORE file is present, then delete it
+	print "**** PeerManager Preinstall: Checking if user's RIMP2PSTORE file is present"
+	for username in potentialBlackBerryUsers:
+		user_RIMP2PSTORE = os.path.join("/Users/", username, "Library/Keychains/RIMP2PSTORE")
+		if os.path.exists(user_RIMP2PSTORE):
+			try:
+				print "**** Deleting user's RIMP2PSTORE file: " + user_RIMP2PSTORE
+				os.remove(user_RIMP2PSTORE)
+			except Exception, e:
+				print(repr(e))
+				print "**** Unable to user's RIMP2PSTORE file: " + user_RIMP2PSTORE
+
+	
+else:
+	print "*** No need to delete RIMP2PSTORE files"
+
+RimInstallAid.writePkgIsUpgrading_DefaultsDict()

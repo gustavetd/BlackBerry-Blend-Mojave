@@ -1,0 +1,58 @@
+#!/usr/bin/python2.6
+import RimInstallAid
+import reference_count_plist
+import os
+import sys
+import shutil
+
+
+bbApp = "/Applications/BlackBerry Link.app";
+nginxExec = '/Applications/BlackBerry Link.app/Contents/Resources/Nginx/nginx' # The nginx executable
+peerManagerExec = '/Library/Application Support/BlackBerry/PeerManager' # The PeerManager executable
+
+DTS_app_pkg_identifier = 'com.rim.desktop.BlackBerryFuse.pkg'
+
+print "**** Requesting reference increment for FW, DR"
+
+reference_count_plist.add_reference_cb('usbdriver-mac', DTS_app_pkg_identifier)
+reference_count_plist.add_reference_cb('usbfw-mac', DTS_app_pkg_identifier)
+reference_count_plist.add_reference_cb('tundrv-mac', DTS_app_pkg_identifier)
+reference_count_plist.add_reference_cb('tunmgr-peermgr-mac', DTS_app_pkg_identifier)
+
+print "**** Completed Requesting reference increment for FW, DR"
+
+# Permissions get all screwed up in Packagemaker (they change between leopard/snow leopard even) so we do this as a safe guard
+print "**** Setting Framework support permissions"
+bbAppSupport="/Library/Application Support/BlackBerry/";
+bbDaemon="/Library/Application Support/BlackBerry/BBDaemon";
+bbLaunchAgentApp="/Library/Application Support/BlackBerry/BBLaunchAgent.app";
+bbFramework="/Library/Frameworks/RimBlackBerryUSB.framework/";
+bbLaunchAgent="/Library/LaunchAgents/com.rim.BBLaunchAgent.plist";
+bbLaunchDaemon="/Library/LaunchDaemons/com.rim.BBDaemon.plist";
+
+rootUID = RimInstallAid.getUID("root")
+adminGID = RimInstallAid.getGID("admin")
+wheelGID = RimInstallAid.getGID("wheel")
+
+RimInstallAid.setSystemFolderPermissions(bbAppSupport, rootUID, adminGID)
+RimInstallAid.setSystemFilePermissions(bbDaemon, rootUID, adminGID)
+RimInstallAid.setSystemFilePermissions(bbLaunchAgentApp, rootUID, adminGID)
+RimInstallAid.setContainerPermissions(bbFramework, rootUID, adminGID)
+RimInstallAid.setContainerPermissions(bbLaunchAgent, rootUID, wheelGID)
+RimInstallAid.setContainerPermissions(bbLaunchDaemon, rootUID, wheelGID)
+
+# Register BLEND autolaunch
+# RimInstallAid.registerBlendAutoLaunch()
+
+# Do the postflight
+
+print "**** Updating BlackBerry Link Permissions"
+rootUID = RimInstallAid.getUID("root")
+rootGID = RimInstallAid.getGID("wheel")
+#RimInstallAid.setContainerPermissions(bbApp, rootUID, rootGID)
+#RimInstallAid.setSystemFilePermissions(nginxExec, rootUID, rootGID)
+RimInstallAid.setSystemFilePermissions(peerManagerExec, rootUID, rootGID)
+print "**** Completed Updating BlackBerry Link Permissions"
+
+
+

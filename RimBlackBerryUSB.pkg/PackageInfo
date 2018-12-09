@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<pkg-info overwrite-permissions="true" relocatable="false" identifier="com.BlackBerry.driver.pkg.RimBlackBerryUSB" postinstall-action="none" version="2.2.35" format-version="2" generator-version="InstallCmds-318 (12E55)" install-location="/" auth="root">
+    <payload numberOfFiles="105" installKBytes="3906"/>
+    <bundle path="./Library/Application Support/BlackBerry/BBUpgradeDrivers.app" id="com.blackberry.BBUpgradeDrivers" CFBundleShortVersionString="2.2.35" CFBundleVersion="2.2.35"/>
+    <bundle-version/>
+    <upgrade-bundle>
+        <bundle id="com.blackberry.BBUpgradeDrivers"/>
+    </upgrade-bundle>
+    <update-bundle/>
+    <atomic-update-bundle/>
+    <strict-identifier>
+        <bundle id="com.blackberry.BBUpgradeDrivers"/>
+    </strict-identifier>
+    <relocate/>
+</pkg-info>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<pkg-info overwrite-permissions="true" relocatable="false" identifier="com.rim.blackberrylink.BlackBerry-Link-Helper-Agent" postinstall-action="none" version="1.2.32" format-version="2" generator-version="InstallCmds-319 (12F45)" auth="root">
+    <payload numberOfFiles="137" installKBytes="1818"/>
+    <bundle path="./Library/Application Support/BlackBerry/BlackBerry-Link-Helper-Agent.app/Contents/Frameworks/Logger.framework" id="com.rim.Logger" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Library/Application Support/BlackBerry/BlackBerry-Link-Helper-Agent.app/Contents/Frameworks/RimCommon.framework" id="com.rim.RimCommon" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle path="./Library/Application Support/BlackBerry/BlackBerry-Link-Helper-Agent.app" id="com.rim.blackberrylink.BlackBerry-Link-Helper-Agent" CFBundleShortVersionString="1.2.2" CFBundleVersion="102.02.32"/>
+    <bundle path="./Library/Application Support/BlackBerry/BlackBerry-Link-Helper-Agent.app/Contents/Frameworks/RimMedia.framework" id="com.rim.RimMedia" CFBundleShortVersionString="1.0" CFBundleVersion="1"/>
+    <bundle-version>
+        <bundle id="com.rim.blackberrylink.BlackBerry-Link-Helper-Agent"/>
+    </bundle-version>
+    <upgrade-bundle>
+        <bundle id="com.rim.blackberrylink.BlackBerry-Link-Helper-Agent"/>
+    </upgrade-bundle>
+    <update-bundle/>
+    <atomic-update-bundle/>
+    <strict-identifier>
+        <bundle id="com.rim.blackberrylink.BlackBerry-Link-Helper-Agent"/>
+    </strict-identifier>
+    <relocate>
+        <bundle id="com.rim.blackberrylink.BlackBerry-Link-Helper-Agent"/>
+    </relocate>
+    <scripts>
+        <preinstall file="./preinstall"/>
+        <postinstall file="./postinstall"/>
+    </scripts>
+</pkg-info>

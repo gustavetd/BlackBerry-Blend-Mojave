@@ -1,0 +1,6 @@
+#!/usr/bin/python2.6
+
+import RimInstallAid
+
+
+RimInstallAid.writePkgIsUpgrading_DefaultsDict()

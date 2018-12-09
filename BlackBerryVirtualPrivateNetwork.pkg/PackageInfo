@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<pkg-info postinstall-action="restart" minimumSystemVersion="10.6" format-version="2" identifier="com.BlackBerry.driver.pkg.BlackBerryVirtualPrivateNetwork" version="1.0.18" generator-version="InstallCmds-318 (12E55)" install-location="/" auth="root">
+    <payload numberOfFiles="15" installKBytes="72"/>
+    <bundle path="./Library/Extensions/BlackBerryVirtualPrivateNetwork.kext" id="com.rim.driver.BlackBerryVirtualPrivateNetwork" CFBundleShortVersionString="1.0.18" CFBundleVersion="1.0.18"/>
+    <bundle-version>
+        <bundle id="com.rim.driver.BlackBerryVirtualPrivateNetwork"/>
+    </bundle-version>
+    <upgrade-bundle>
+        <bundle id="com.rim.driver.BlackBerryVirtualPrivateNetwork"/>
+    </upgrade-bundle>
+    <update-bundle/>
+    <atomic-update-bundle/>
+    <strict-identifier/>
+    <relocate/>
+</pkg-info>

@@ -1,0 +1,59 @@
+#!/usr/bin/python2.6
+import RimInstallAid
+import reference_count_plist
+import os
+import sys
+import shutil
+
+
+bbApp = "/Applications/BlackBerry Link.app";
+nginxExec = '/Applications/BlackBerry Link.app/Contents/Resources/Nginx/nginx' # The nginx executable
+
+DTS_app_pkg_identifier = 'com.rim.desktop.BlackBerryLink.pkg'
+isUpgrading = RimInstallAid.readPkgIsUpgrading_DefaultsDict(DTS_app_pkg_identifier)
+
+if (isUpgrading == True):
+
+	# Do postupgrade
+	print "**** Doing BBLink upgrade script"
+	
+	
+else:
+
+	# Do postinstall
+	print "**** Doing BBLink fresh install script"
+
+print "**** Requesting reference increment for FW, DR"
+
+reference_count_plist.add_reference_cb('usbdriver-mac', DTS_app_pkg_identifier)
+reference_count_plist.add_reference_cb('usbfw-mac', DTS_app_pkg_identifier)
+reference_count_plist.add_reference_cb('tundrv-mac', DTS_app_pkg_identifier)
+reference_count_plist.add_reference_cb('tunmgr-peermgr-mac', DTS_app_pkg_identifier)
+
+print "**** Completed Requesting reference increment for FW, DR"
+
+print "**** Re-registering DTS autolaunch - only autolaunch DTS for BBOS devices and W1 running PBOS 1.x"
+RimInstallAid.registerDTSAutoLaunch()
+print "**** Completed DTS registration"
+
+print "**** Registering with BBLink AutoLaunch"
+RimInstallAid.registerBBLinkAutoLaunch()
+print "**** Completed Registering with BBLink AutoLaunch"
+
+# Wipe the old autolaunch registrations
+print "**** Removing legacy registrations"
+RimInstallAid.wipeLegacyAutolaunchRegistrations()
+print "**** Completed removing legacy registrations"
+
+
+# Do the postflight
+
+print "**** Updating BlackBerry Link Permissions"
+rootUID = RimInstallAid.getUID("root")
+rootGID = RimInstallAid.getGID("wheel")
+RimInstallAid.setContainerPermissions(bbApp, rootUID, rootGID)
+RimInstallAid.setSystemFilePermissions(nginxExec, rootUID, rootGID)
+print "**** Completed Updating BlackBerry Link Permissions"
+
+
+
